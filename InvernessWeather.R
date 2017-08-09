@@ -61,12 +61,12 @@ swdata<- bind_rows(sw2016,sw2015,sw2014,sw2013,sw2012,sw2011,
 ######end of import and processing ##############
 path <- "C:/Users/datag/Documents/RScripts/InvernessWeather"
 
-saveRDS(data, file="swInvdf.Rda")
+saveRDS(data, file="sw.RData")
 
 ####### start here once data processed#########
 
 
-swdata <- readRDS(file="swInvdf.Rda")
+swdata <- load("sw.RData")
 swdata$Year <- lubridate::year(swdata$Date)
 
 

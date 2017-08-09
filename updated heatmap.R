@@ -1,3 +1,5 @@
+
+load("swMaster.RData")
 df<- tbl_df(swdata)
 #rm(data)
 
@@ -12,9 +14,15 @@ df<- df %>% mutate(year = year(Date),
 df.means <-df %>% select(day,wday,week,month,year,Events)
 df.means$dow = with(df.means, factor(wday, levels = rev(levels(wday))))
 
+library(RColorBrewer)
+n <- 60
+qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
+col_vector = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
+paired2 <-sample(col_vector, 15)
+
 p <-ggplot(df.means,aes(week,dow,fill=Events))+
   geom_tile(color= "white",size=0.1) +
-  scale_fill_brewer(type="qual",palette = "Paired")
+  scale_fill_manual(values= paired2)
 p <-p + facet_wrap(~year,ncol=2)
 p <-p + scale_x_continuous(breaks = unique(df.means$week))
 #p <-p + scale_x_date(date_breaks ="2 weeks",labels="%d-%m-$y")
